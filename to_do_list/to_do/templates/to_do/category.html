@@ -1,0 +1,38 @@
+{% extends 'to_do/base.html' %}
+{% block content %}
+<div class="header">
+    <h1 class="mb-1">Choose category</h1>
+</div>
+<div class="flex-container">
+    <div class="list-group">
+        {% for category in categories %}
+        <a href="#" class="list-group-item">
+            <div class="d-flex w-100">
+                <h5 class="mb-1">{{ category.name }}</h5>
+            </div>
+        </a>
+        {% endfor %}
+            <div class="list-group-item button">
+                <button class="btn btn-primary add" type="button" id="show-window">Add a category</button>
+            </div>
+    </div>
+</div>
+
+<div class="pop_up_window">
+    <div class="close-btn" btn>&times;</div>
+    <h2 class>Add a new category</h2>
+    <div class="form">
+        <form action="" method="post" class="add_category">
+        {% csrf_token %}
+        <div class="form-element">
+            <input class="name-add" type="text" id="name" placeholder="Enter a name" name="name">
+        </div>
+        <div class="form-element">
+            <button class="add-element" type="submit">Add</button>
+        </div>
+        </form>
+    </div>
+</div>
+{% load static %}
+<script type="text/javascript" src="{% static 'to_do/pop_up_window.js' %}"></script>
+{% endblock %}
