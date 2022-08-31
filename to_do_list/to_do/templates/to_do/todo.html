@@ -1,0 +1,18 @@
+{% extends "to_do/base.html" %}
+{% block content %}
+    <div><h1>{{ category.name }}</h1></div>
+    {% if todos %}
+        {% for todo in todos %}
+        <div>
+            <h2>{{ todo.task_title }}</h2>
+            <h2>{{ todo.task_text }}</h2>
+            <h2>{{ todo.created_at }}</h2>
+            {% if todo.reminder_date is not None %}
+            <h2>{{ todo.reminder_date }}</h2>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <h2>{{ does_not_exist_msg }}</h2>
+    {% endif %}
+{% endblock %}

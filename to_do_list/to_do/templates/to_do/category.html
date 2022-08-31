@@ -6,7 +6,7 @@
 <div class="flex-container">
     <div class="list-group">
         {% for category in categories %}
-        <a href="#" class="list-group-item">
+        <a href="{% url 'to_do:to-do-list' category.id %}" class="list-group-item">
             <div class="d-flex w-100">
                 <h5 class="mb-1">{{ category.name }}</h5>
             </div>
