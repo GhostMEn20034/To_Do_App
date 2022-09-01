@@ -41,7 +41,7 @@ What can our application do now:
  ```console
  python manage.py migrate
  ```
- 5. In ```to_do_list``` (Where ```settings.py``` file) create ```asgi.py``` and  ```wsgi.py``` files and inside them paste django-generated like this:  
+ 5. In ```to_do_list``` (Where ```settings.py``` file) create ```asgi.py``` and  ```wsgi.py``` files and inside them paste django-generated code like this:  
 ```python
 #asgi.py
 import os
