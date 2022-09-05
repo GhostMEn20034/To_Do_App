@@ -62,7 +62,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'to_do_list.settings')
 
 application = get_wsgi_application()
  ```
-Or write your custom code for these files 
+Or write your custom code for these files  
 6. Run command: 
 ```console
 python manage.py runserver
