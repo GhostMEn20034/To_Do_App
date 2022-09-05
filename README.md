@@ -79,8 +79,15 @@ python manage.py runserver
   - ```Category``` creating
   
  ### V0.1.1-Pre-Release
+ 
  #### In this release implemented:
   - ```Todos``` view for ```Task``` model
   - Base rendering for ```Todos``` view
   
+### V0.1.2-Pre-Release
+
+####  In this release:
+  - Created ```todo.html``` to render tasks associated with categories and ```todo.css``` for this html file
+  - Css-code for ```category.html``` is placed from ```base.css``` to  ```category.css```
+  - In ```views.py``` class ```Todos``` was rewritten, now if you haven't any tasks, in ```todo.html``` a message will be displayed that there are no tasks
 #  
