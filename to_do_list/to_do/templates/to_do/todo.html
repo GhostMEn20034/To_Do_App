@@ -1,18 +1,32 @@
 {% extends "to_do/base.html" %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'to_do/Css_files/todo.css' %}">
+{% endblock %}
 {% block content %}
-    <div><h1>{{ category.name }}</h1></div>
-    {% if todos %}
-        {% for todo in todos %}
+    <div class="TasksToolBar">
         <div>
-            <h2>{{ todo.task_title }}</h2>
-            <h2>{{ todo.task_text }}</h2>
-            <h2>{{ todo.created_at }}</h2>
-            {% if todo.reminder_date is not None %}
-            <h2>{{ todo.reminder_date }}</h2>
-            {% endif %}
+            <h3><span>{{ category.name }}</span></h3>
+            <div class="TasksToolBar-subline">
+                <span class="date">{% now "l, \t\h\e jS \o\f F" %}</span>
+            </div>
         </div>
-        {% endfor %}
-    {% else %}
-        <h2>{{ does_not_exist_msg }}</h2>
-    {% endif %}
+    </div>
+
+    <div class="block-content">
+        {% if todos %}
+            <ul class="list-group">
+            {% for todo in todos %}
+            <li class="list-group-item">
+                <input class="form-check-input me-1" type="checkbox" value="">
+                {{ todo.task_title }}<br>
+                <small class="DateTime">{{ todo.created_at }}</small>
+            </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <h2>{{ does_not_exist_msg }}</h2>
+        {% endif %}
+    </div>
+
 {% endblock %}

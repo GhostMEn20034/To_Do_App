@@ -1,4 +1,11 @@
 {% extends 'to_do/base.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'to_do/Css_files/category.css' %}">
+{% endblock %}
+
+
+
 {% block content %}
 <div class="header">
     <h1 class="mb-1">Choose category</h1>

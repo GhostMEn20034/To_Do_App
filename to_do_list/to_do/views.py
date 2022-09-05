@@ -27,9 +27,6 @@ class CategoryView(View):
         return HttpResponseRedirect(reverse("to_do:category"))
 
 
-
-
-
 class Todos(View):
     template_name = "to_do/todo.html"
 

@@ -1,13 +1,3 @@
-.navbar-search {
-    margin: auto;
-}
-
-
-
-body {
-    background-color: #d7d7d7 !important;
-}
-
 .flex-container {
     width: 60%;
     background-color: #efa502;
@@ -157,6 +147,7 @@ div.form {
 
 div.header {
     margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 div.header h1 {
