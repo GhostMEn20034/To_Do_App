@@ -5,6 +5,21 @@
 /*.TasksToolBar-subline {*/
 
 /*}*/
+.TaskCreator {
+    width: 80%;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+.dateCreator {
+    width: 50%;
+    display: inline-flex;
+}
+
+.reset-btn {
+    margin-left: 1.5%;
+    margin-right: 10px;
+}
 
 .block-content {
     width: 80%;
@@ -20,4 +35,25 @@ li.list-group-item {
 
 .DateTime {
     margin-left: 2.5%;
+}
+
+.addTask {
+    margin-bottom: 5px;
+}
+
+.inline-date-input-and-button {
+    display: inline-flex;
+    width: 100%;
+}
+.submit-task {
+    width: fit-content;
+    margin-left: auto;
+}
+
+.textCreator {
+    width: 50%;
+}
+
+.add-date-task {
+    width: 48.5% !important;
 }

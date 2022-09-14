@@ -2,6 +2,7 @@
 {% load static %}
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{% static 'to_do/Css_files/todo.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% endblock %}
 {% block content %}
     <div class="TasksToolBar">
@@ -12,7 +13,30 @@
             </div>
         </div>
     </div>
+    <div class="TaskCreator">
+        <form method="post" action="">
+        {% csrf_token %}
+        <div class="addTask titleCreator">
+            <input class="form-control" placeholder="Add a task" maxlength="255" type="text" id="task-title" name="task_title">
+        </div>
 
+        <div class="addTask textCreator">
+            <textarea class="form-control input-text" maxlength="255" rows="1" style="resize: none" placeholder="Add a task text" onkeyup="do_resize(this)" name="task_text"></textarea>
+        </div>
+
+        <div class="inline-date-input-and-button">
+
+          <div class="addTask dateCreator">
+            <input class="form-control add-date-task" type="text" placeholder="Add a reminder date(Optional)" id="datepicker" name="reminder_date">
+            <button onclick="document.getElementById('datepicker').value = '' " class="btn btn-danger reset-btn" id="reset">Reset</button>
+          </div>
+
+          <div class="addTask submit-task">
+            <button disabled type="submit" class="btn btn-primary" id="submit-form">Submit</button>
+          </div>
+        </div>
+        </form>
+    </div>
     <div class="block-content">
         {% if todos %}
             <ul class="list-group">
@@ -28,5 +52,40 @@
             <h2>{{ does_not_exist_msg }}</h2>
         {% endif %}
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $('#datepicker').datetimepicker({
+            showSecond: true,
+            timepicker: true,
+            datepicker: true,
+            format: 'Y-m-d H:i',
+            value: "",
+            weeks: true,
+            step: 1,
+            minDate: 0,
+            yearStart: new Date().getFullYear(),
+        })
+    </script>
+    <script>
+    function do_resize(textbox) {
 
+    var maxrows=5;
+    var txt=textbox.value;
+    var cols=textbox.cols;
+
+    var arraytxt=txt.split('\n');
+    var rows=arraytxt.length;
+
+    for (i=0;i<arraytxt.length;i++)
+        rows+=parseInt(arraytxt[i].length/cols);
+
+    if (rows>maxrows) textbox.rows=maxrows;
+    else textbox.rows=rows;
+     }
+    </script>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'to_do/JS_files/button_disabler.js' %}"></script>
 {% endblock %}

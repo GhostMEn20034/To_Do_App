@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
+
+from .forms import TaskForm
 from .models import Task, Category
 from django.views import View
 from django.http import HttpResponseRedirect
@@ -29,6 +32,7 @@ class CategoryView(View):
 
 class Todos(View):
     template_name = "to_do/todo.html"
+    form_class = TaskForm
 
     def get(self, request, category_id):
         category = get_object_or_404(Category, id=category_id)  # get all Category objects
@@ -42,3 +46,12 @@ class Todos(View):
             "todos": todos,
                 }
         return render(request, self.template_name, context)
+
+    def post(self, request, category_id):
+        form = TaskForm(request.POST)
+        category = Category.objects.get(id=category_id)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.category = category
+            form.save()
+        return HttpResponseRedirect(reverse("to_do:to-do-list", kwargs={'category_id':category_id}))
