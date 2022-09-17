@@ -13,7 +13,7 @@ What can our application do now:
   - [X] Create task categories
   - [ ] Edit task categories
   - [ ] Delete task categories
-  - [ ] Create tasks
+  - [X] Create tasks
   - [ ] Edit tasks
   - [ ] Delete tasks
   - [ ] Register users
@@ -90,4 +90,10 @@ python manage.py runserver
   - Created ```todo.html``` to render tasks associated with categories and ```todo.css``` for this html file
   - Css-code for ```category.html``` is placed from ```base.css``` to  ```category.css```
   - In ```views.py``` class ```Todos``` was rewritten, now if you haven't any tasks, in ```todo.html``` a message will be displayed that there are no tasks
-#  
+### V0.2-pre-release
+#### In this release:
+  - Implemented tasks creating
+  - Realized ```post()``` method, which processes POST requests
+  - ```todo.html``` is supplemented with new code
+
+#
