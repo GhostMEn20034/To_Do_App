@@ -5,7 +5,7 @@
     <title>To Do</title>
 
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'to_do/Css_files/base-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'to_do/CSS/base-style.css' %}">
     {% block extra_head %}
     {% endblock %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -14,7 +14,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">To Do</a>
+    <a class="navbar-brand" href="{% url 'to_do:category' %}">To Do</a>
     <div class="navbar-search">
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Find a task" aria-label="Search">

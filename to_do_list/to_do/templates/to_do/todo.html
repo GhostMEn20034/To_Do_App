@@ -1,8 +1,9 @@
 {% extends "to_do/base.html" %}
 {% load static %}
 {% block extra_head %}
-    <link rel="stylesheet" type="text/css" href="{% static 'to_do/Css_files/todo.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'to_do/CSS/todo.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 {% endblock %}
 {% block content %}
     <div class="TasksToolBar">
@@ -20,39 +21,87 @@
             <input class="form-control" placeholder="Add a task" maxlength="255" type="text" id="task-title" name="task_title">
         </div>
 
-        <div class="addTask textCreator">
-            <textarea class="form-control input-text" maxlength="255" rows="1" style="resize: none" placeholder="Add a task text" onkeyup="do_resize(this)" name="task_text"></textarea>
-        </div>
+        <div class="hidden-fields hidden">
+            <div class="addTask textCreator">
+                <textarea class="form-control input-text" maxlength="255" rows="1" style="resize: none" placeholder="Add a task notes(Optional)" onkeyup="do_resize(this)" name="task_text"></textarea>
+            </div>
 
-        <div class="inline-date-input-and-button">
-
-          <div class="addTask dateCreator">
-            <input class="form-control add-date-task" type="text" placeholder="Add a reminder date(Optional)" id="datepicker" name="reminder_date">
-            <button onclick="document.getElementById('datepicker').value = '' " class="btn btn-danger reset-btn" id="reset">Reset</button>
-          </div>
-
-          <div class="addTask submit-task">
-            <button disabled type="submit" class="btn btn-primary" id="submit-form">Submit</button>
-          </div>
+            <div class="inline-date-input-and-button">
+              <div class="addTask dateCreator">
+                  <input class="form-control add-date-task" type="text" placeholder="Add a reminder date(Optional)" id="datepicker" name="reminder_date">
+                  <button onclick="document.getElementById('datepicker').value = '' " class="btn btn-danger reset-btn" id="reset" type="button">Reset</button>
+              </div>
+              <div class="addTask submit-task">
+                  <button disabled type="submit" class="btn btn-primary" id="submit-form">Submit</button>
+              </div>
+            </div>
         </div>
         </form>
     </div>
-    <div class="block-content">
-        {% if todos %}
-            <ul class="list-group">
-            {% for todo in todos %}
-            <li class="list-group-item">
-                <input class="form-check-input me-1" type="checkbox" value="">
-                {{ todo.task_title }}<br>
-                <small class="DateTime">{{ todo.created_at }}</small>
-            </li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <h2>{{ does_not_exist_msg }}</h2>
-        {% endif %}
+
+<div class="primary-block-content">
+    {% if not uncompleted_tasks and not completed_tasks.count %}
+    <div class="no-tasks-msg">
+        <h4>{{ does_not_exist_msg }}</h4>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    {% else %}
+{#     <h2>uwu</h2>#}
+    <div id="tasks-container">
+            {% if uncompleted_tasks.count > 0 %}
+            <div class="block-content not-done-tasks">
+                    <div class="list-group tasks-list">
+                    {% for todo in uncompleted_tasks %}
+                    <div class="list-group-item">
+                        <div class="mini-container">
+                            <div class="sub-container">
+                                <div class="checkbox" id="cBox1">
+                                    <input class="form-check-input me-1 cBox" type="checkbox" value="" id="{{ todo.id }}">
+                                </div>
+                                <div class="task-info">
+                                    <div class="title">
+                                            {{ todo.task_title }}
+                                    </div>
+                                    <div class="creation-date">
+                                        <small class="DateTime">{{ todo.created_at }}</small>
+                                    </div>
+                                </div>
+                                <a href="#" class="detail-link stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+            </div>
+            {% endif %}
+            {% if completed_tasks.count > 0 %}
+            <div class="block-content done-tasks">
+                    <div class="list-group tasks-list">
+                    {% for todo in completed_tasks %}
+                    <div class="list-group-item">
+                        <div class="mini-container">
+                            <div class="sub-container">
+                                <div class="checkbox" id="cBox1">
+                                    <input class="form-check-input me-1 cBox" type="checkbox" value="" id="{{ todo.id }}" checked>
+                                </div>
+                                <div class="task-info">
+                                    <div class="title">
+                                            <del>{{ todo.task_title }}</del>
+                                    </div>
+                                    <div class="creation-date">
+                                        <small class="DateTime">{{ todo.created_at }}</small>
+                                    </div>
+                                </div>
+                                <a href="#" class="detail-link stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+            </div>
+            {% endif %}
+    </div>
+    {% endif %}
+</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -72,14 +121,14 @@
     <script>
     function do_resize(textbox) {
 
-    var maxrows=5;
-    var txt=textbox.value;
-    var cols=textbox.cols;
+    const maxrows=5;
+    const txt=textbox.value;
+    const cols=textbox.cols;
 
-    var arraytxt=txt.split('\n');
-    var rows=arraytxt.length;
+    const arraytxt=txt.split('\n');
+    let rows=arraytxt.length;
 
-    for (i=0;i<arraytxt.length;i++)
+    for (let i=0;i<arraytxt.length;i++)
         rows+=parseInt(arraytxt[i].length/cols);
 
     if (rows>maxrows) textbox.rows=maxrows;
@@ -87,5 +136,7 @@
      }
     </script>
     {% load static %}
-    <script type="text/javascript" src="{% static 'to_do/JS_files/button_disabler.js' %}"></script>
+    <script type="text/javascript" src="{% static 'to_do/JS/button_disabler.js' %}"></script>
+    <script type="text/javascript" src="{% static 'to_do/JS/Hide_form_fields.js' %}"></script>
+    <script type="text/javascript" src="{% static 'to_do/JS/ajax_main.js' %}"></script>
 {% endblock %}

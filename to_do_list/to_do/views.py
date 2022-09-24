@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
-
+import json
 from .forms import TaskForm
 from .models import Task, Category
 from django.views import View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from . import my_shortcuts
+from .my_shortcuts import is_ajax, get_objects_or_none
+
 
 # Create your views here.
+
 
 class RedirectToBasePageView(RedirectView):
     pattern_name = 'redirect-to-base-page'
@@ -35,23 +39,34 @@ class Todos(View):
     form_class = TaskForm
 
     def get(self, request, category_id):
-        category = get_object_or_404(Category, id=category_id)  # get all Category objects
-        try:
-            todos = Task.objects.filter(category_id=category_id)# get all Task objects
-        except (KeyError, Task.DoesNotExist):
-            todos = None
+        category = get_object_or_404(Category, id=category_id)
+        uncompleted_tasks = get_objects_or_none(Task, category_id=category_id, execution_status=False)
+        completed_tasks = get_objects_or_none(Task, category_id=category_id, execution_status=True)
         context = {
-            "does_not_exist_msg": "There are no todos",
+            "does_not_exist_msg": "There is no tasks yet",
             "category": category,
-            "todos": todos,
+            "uncompleted_tasks": uncompleted_tasks ,
+            "completed_tasks": completed_tasks,
                 }
+        print(uncompleted_tasks)
+        print(completed_tasks)
         return render(request, self.template_name, context)
 
     def post(self, request, category_id):
-        form = TaskForm(request.POST)
-        category = Category.objects.get(id=category_id)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.category = category
-            form.save()
-        return HttpResponseRedirect(reverse("to_do:to-do-list", kwargs={'category_id':category_id}))
+        if is_ajax(request):
+            if request.method == 'POST':
+                data = json.load(request)
+                todo = data.get('payload')
+                task = get_object_or_404(Task, id=todo['id'])
+                task.execution_status = not task.execution_status
+                task.save()
+                print(todo)
+                return JsonResponse({'status': 1})
+        else:
+            form = TaskForm(request.POST)
+            category = Category.objects.get(id=category_id)
+            if form.is_valid():
+                form = form.save(commit=False)
+                form.category = category
+                form.save()
+            return HttpResponseRedirect(reverse("to_do:to-do-list", kwargs={'category_id':category_id}))
