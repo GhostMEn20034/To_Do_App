@@ -90,10 +90,14 @@ python manage.py runserver
   - Created ```todo.html``` to render tasks associated with categories and ```todo.css``` for this html file
   - Css-code for ```category.html``` is placed from ```base.css``` to  ```category.css```
   - In ```views.py``` class ```Todos``` was rewritten, now if you haven't any tasks, in ```todo.html``` a message will be displayed that there are no tasks
-### V0.2-pre-release
+### V0.2-Pre-Release
 #### In this release:
   - Implemented tasks creating
   - Realized ```post()``` method, which processes POST requests
   - ```todo.html``` is supplemented with new code
 
-#
+### V0.3-Pre-Release
+#### In this release:
+  - Marking tasks as completed has been implemented
+  - ```todo.html``` has a small redesign, now pending and completed tasks are in different blocks
+  - Also implemented some minor things

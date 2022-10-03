@@ -45,7 +45,6 @@
         <h4>{{ does_not_exist_msg }}</h4>
     </div>
     {% else %}
-{#     <h2>uwu</h2>#}
     <div id="tasks-container">
             {% if uncompleted_tasks.count > 0 %}
             <div class="block-content not-done-tasks">
@@ -65,7 +64,7 @@
                                         <small class="DateTime">{{ todo.created_at }}</small>
                                     </div>
                                 </div>
-                                <a href="#" class="detail-link stretched-link"></a>
+                                <a href="{% url 'to_do:to-do-detail' todo.id %}" class="detail-link stretched-link"></a>
                             </div>
                         </div>
                     </div>
@@ -91,7 +90,7 @@
                                         <small class="DateTime">{{ todo.created_at }}</small>
                                     </div>
                                 </div>
-                                <a href="#" class="detail-link stretched-link"></a>
+                                <a href="{% url 'to_do:to-do-detail' todo.id %}" class="detail-link stretched-link"></a>
                             </div>
                         </div>
                     </div>

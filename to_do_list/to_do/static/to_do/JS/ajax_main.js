@@ -1,3 +1,7 @@
+function playAudio() {
+   const audio = new Audio("../../static/to_do/Audio/ping-82822.mp3")
+   audio.play().then()
+}
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
@@ -30,6 +34,9 @@ $(".primary-block-content").on("click", ".cBox", function(){
         },
         cache: false,
                 success: (data) => {
+            if (data.done == true) {
+                playAudio()
+            }
             if (data.status == 1) {
                 $.get(window.location, function(html) {
                     $("#tasks-container").replaceWith($(html).find("#tasks-container"));

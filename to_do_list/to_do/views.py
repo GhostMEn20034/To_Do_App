@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
+from django.views.generic import DetailView
 import json
 from .forms import TaskForm
 from .models import Task, Category
@@ -17,7 +18,7 @@ class RedirectToBasePageView(RedirectView):
     pattern_name = 'redirect-to-base-page'
 
     def get_redirect_url(self, *args, **kwargs):
-        return 'category/'
+        return reverse("to_do:category")
 
 
 class CategoryView(View):
@@ -48,8 +49,6 @@ class Todos(View):
             "uncompleted_tasks": uncompleted_tasks ,
             "completed_tasks": completed_tasks,
                 }
-        print(uncompleted_tasks)
-        print(completed_tasks)
         return render(request, self.template_name, context)
 
     def post(self, request, category_id):
@@ -61,7 +60,8 @@ class Todos(View):
                 task.execution_status = not task.execution_status
                 task.save()
                 print(todo)
-                return JsonResponse({'status': 1})
+                return JsonResponse({'status': 1,
+                                     'done': task.execution_status})
         else:
             form = TaskForm(request.POST)
             category = Category.objects.get(id=category_id)
@@ -70,3 +70,18 @@ class Todos(View):
                 form.category = category
                 form.save()
             return HttpResponseRedirect(reverse("to_do:to-do-list", kwargs={'category_id':category_id}))
+
+class TaskDetailView(DetailView):
+    model = Task
+    template_name = "to_do/todo_detail.html"
+    pk_url_kwarg = "task_id"
+
+    def get_context_data(self, **kwargs):
+        obj_id = Task.objects.get(id=self.kwargs['task_id']).category_id
+        print(obj_id)
+        print(self.kwargs['task_id'])
+        context = super().get_context_data(**kwargs)
+        print(self.kwargs)
+        context["task_category"] = Category.objects.get(id=obj_id)
+        print(context)
+        return context
