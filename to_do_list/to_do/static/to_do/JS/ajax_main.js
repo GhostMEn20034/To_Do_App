@@ -1,5 +1,5 @@
 function playAudio() {
-   const audio = new Audio("../../static/to_do/Audio/ping-82822.mp3")
+   const audio = new Audio("../../../static/to_do/Audio/ping-82822.mp3")
    audio.play().then()
 }
 function getCookie(name) {

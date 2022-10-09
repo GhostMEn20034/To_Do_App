@@ -1,5 +1,37 @@
 {% extends "to_do/base.html" %}
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'to_do/CSS/todo_detail.css' %}">
+{% endblock %}
 {% block content %}
-<h2>{{ task.task_title }}</h2>
-<h2>{{ task.created_at }}</h2>
+<div class="block-content">
+    <div class="items">
+        <div class="item-block">
+            <h4>Task</h4>
+            <div class="item task-title"><p class="item-content">{{ task.task_title }}</p></div>
+        </div>
+        <div class="item-block">
+            <h4>Task notes</h4>
+            <div class="item task-notes">{% if task.task_text %}<p class="item-content">{{ task.task_text }}</p>{% else %}
+            <p class="item-content no-content">There's no task notes</p> {% endif %}</div>
+        </div>
+        <div class="item-block">
+            <h4>Reminder date</h4>
+            <div class="item reminder-date"><p class="item-content">{{ task.reminder_date|default:"There is no reminder date" }}</p></div>
+        </div>
+        <div class="item-block">
+            <h4>Completed</h4>
+            <div class="item completed"><p class="item-content">{% if task.execution_status %} Yes✅ {% else %} No❌ {% endif %}</p></div>
+        </div>
+        <div class="item-block">
+            <h4>Category</h4>
+            <div class="item category"><p class="item-content">{{ task_category.name }}</p></div>
+        </div>
+    </div>
+    <hr>
+    <div class="detail-footer">
+        <p class="creation-date">Created on {{ task.created_at|date:"D, F j" }}</p>
+    </div>
+
+</div>
 {% endblock %}

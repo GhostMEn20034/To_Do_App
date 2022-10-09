@@ -7,7 +7,6 @@ from .forms import TaskForm
 from .models import Task, Category
 from django.views import View
 from django.http import HttpResponseRedirect, JsonResponse
-from . import my_shortcuts
 from .my_shortcuts import is_ajax, get_objects_or_none
 
 
@@ -46,7 +45,7 @@ class Todos(View):
         context = {
             "does_not_exist_msg": "There is no tasks yet",
             "category": category,
-            "uncompleted_tasks": uncompleted_tasks ,
+            "uncompleted_tasks": uncompleted_tasks,
             "completed_tasks": completed_tasks,
                 }
         return render(request, self.template_name, context)
@@ -69,7 +68,8 @@ class Todos(View):
                 form = form.save(commit=False)
                 form.category = category
                 form.save()
-            return HttpResponseRedirect(reverse("to_do:to-do-list", kwargs={'category_id':category_id}))
+            return HttpResponseRedirect(reverse("to_do:to-do-list", kwargs={'category_id': category_id}))
+
 
 class TaskDetailView(DetailView):
     model = Task
@@ -78,10 +78,6 @@ class TaskDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         obj_id = Task.objects.get(id=self.kwargs['task_id']).category_id
-        print(obj_id)
-        print(self.kwargs['task_id'])
         context = super().get_context_data(**kwargs)
-        print(self.kwargs)
         context["task_category"] = Category.objects.get(id=obj_id)
-        print(context)
         return context
