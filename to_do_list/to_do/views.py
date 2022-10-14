@@ -1,12 +1,11 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.urls import reverse_lazy
+from django.shortcuts import render, reverse, get_object_or_404
 from django.views.generic.base import RedirectView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView, DeleteView
 import json
 from .forms import TaskForm
 from .models import Task, Category
 from django.views import View
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, Http404
 from .my_shortcuts import is_ajax, get_objects_or_none
 
 
@@ -61,13 +60,13 @@ class Todos(View):
                 print(todo)
                 return JsonResponse({'status': 1,
                                      'done': task.execution_status})
-        else:
-            form = TaskForm(request.POST)
-            category = Category.objects.get(id=category_id)
-            if form.is_valid():
-                form = form.save(commit=False)
-                form.category = category
-                form.save()
+
+        form = TaskForm(request.POST)
+        category = Category.objects.get(id=category_id)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.category = category
+            form.save()
             return HttpResponseRedirect(reverse("to_do:to-do-list", kwargs={'category_id': category_id}))
 
 
@@ -81,3 +80,29 @@ class TaskDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["task_category"] = Category.objects.get(id=obj_id)
         return context
+
+
+class TaskUpdateView(UpdateView):
+    template_name = "to_do/update_todo.html"
+    pk_url_kwarg = "task_id"
+    form_class = TaskForm
+
+    def get_object(self, queryset=None):
+        id_ = self.kwargs.get("task_id")
+        return get_object_or_404(Task, id=id_)
+
+    def get_success_url(self, **kwargs):
+        obj_id = Task.objects.get(id=self.kwargs.get("task_id")).category_id
+        return reverse("to_do:to-do-list", kwargs={'category_id': obj_id})
+
+
+class TaskDeleteView(DeleteView):
+    model = Task
+    pk_url_kwarg = "task_id"
+
+    def get_success_url(self, **kwargs):
+        obj_id = Task.objects.get(id=self.kwargs.get("task_id")).category_id
+        return reverse("to_do:to-do-list", kwargs={'category_id': obj_id})
+
+    def get(self, request, *args, **kwargs):
+        raise Http404

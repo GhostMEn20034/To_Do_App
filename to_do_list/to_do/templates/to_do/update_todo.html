@@ -1,0 +1,64 @@
+{% extends "to_do/base.html" %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{%  static 'to_do/CSS/update_todo.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="block-content">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+        {{ form.task_title.label }}
+        {{ form.task_title }}
+        </div>
+        <div>
+        {{ form.task_text.label }}
+        {{ form.task_text }}
+        </div>
+        <div>
+        {{ form.reminder_date.label }}
+        {{ form.reminder_date }}
+        </div>
+        <div style="display: flex" class="checkbox-completed">
+        <label id="completed">Completed</label>
+        {{ form.execution_status }}
+        </div>
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $('#date-picker').datetimepicker({
+            showSecond: true,
+            timepicker: true,
+            datepicker: true,
+            format: 'Y-m-d H:i',
+            value: "",
+            weeks: true,
+            step: 1,
+            minDate: 0,
+            yearStart: new Date().getFullYear(),
+        })
+    </script>
+    <script>
+    function do_resize(textbox) {
+
+    const maxrows=5;
+    const txt=textbox.value;
+    const cols=textbox.cols;
+
+    const arraytxt=txt.split('\n');
+    let rows=arraytxt.length;
+
+    for (let i=0;i<arraytxt.length;i++)
+        rows+=parseInt(arraytxt[i].length/cols);
+
+    if (rows>maxrows) textbox.rows=maxrows;
+    else textbox.rows=rows;
+     }
+    </script>
+{% endblock %}

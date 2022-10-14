@@ -77,7 +77,6 @@
 .pop_up_window.active {
     top: 50%;
     opacity: 1;
-    transform: translate(-50%,-50% ) scale(1);
     transition: top 0ms ease-in-out 0ms,
                 opacity 200ms ease-in-out 0ms,
                 transform 200ms ease-in-out 0ms;

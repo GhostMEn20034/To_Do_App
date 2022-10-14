@@ -1,6 +1,6 @@
 function playAudio() {
-   const audio = new Audio("../../../static/to_do/Audio/ping-82822.mp3")
-   audio.play().then()
+   const audio = new Audio("../../../static/to_do/Audio/ping-82822.mp3");
+   audio.play().then();
 }
 function getCookie(name) {
   let cookieValue = null;
@@ -19,10 +19,10 @@ function getCookie(name) {
 }
 
 $(".primary-block-content").on("click", ".cBox", function(){
-    let id_task = $(this).attr('id')
+    let id_task = $(this).attr('id');
     const data = {
         "id": id_task,
-    }
+    };
     $.ajax({
         url: "",
         type: "POST",
@@ -35,7 +35,7 @@ $(".primary-block-content").on("click", ".cBox", function(){
         cache: false,
                 success: (data) => {
             if (data.done == true) {
-                playAudio()
+                playAudio();
             }
             if (data.status == 1) {
                 $.get(window.location, function(html) {
@@ -43,5 +43,5 @@ $(".primary-block-content").on("click", ".cBox", function(){
                 });
             }
         }
-    })
+    });
 });

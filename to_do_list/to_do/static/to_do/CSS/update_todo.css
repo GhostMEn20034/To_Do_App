@@ -1,0 +1,19 @@
+.block-content {
+    width: 50%;
+    margin: 5px auto;
+}
+
+.block-content div {
+    margin: 7px 0;
+}
+
+#completed {
+    transform: translateY(-1px);
+}
+/*.checkbox-completed {*/
+/*    width: 16%;*/
+/*}*/
+
+.checkbox-completed input {
+    margin-left: 2%;
+}

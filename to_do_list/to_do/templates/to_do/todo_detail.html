@@ -1,7 +1,10 @@
 {% extends "to_do/base.html" %}
+{% block page-title %} {{ task.task_title }} {% endblock %}
+
 {% block extra_head %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'to_do/CSS/todo_detail.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
 {% endblock %}
 {% block content %}
 <div class="block-content">
@@ -30,8 +33,26 @@
     </div>
     <hr>
     <div class="detail-footer">
+        <div class="detail edit-btn">
+            <a class="btn btn-success btn-sm rounded-0" href="{% url 'to_do:to-do-edit' task.id %}" title="Edit"><i class="fa fa-edit"></i></a>
+        </div>
         <p class="creation-date">Created on {{ task.created_at|date:"D, F j" }}</p>
+        <div class="detail delete-btn">
+            <button class="btn btn-danger btn-sm rounded-0 delete-task" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+        </div>
+
+    </div>
+    <div class="danger-msg">
+            <p>Are you sure you want to delete task "{{ task }}" ?</p>
+        <div class="buttons">
+            <button class="btn btn-warning close-window">No</button>
+            <form action="{% url 'to_do:to-do-delete' task.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger сonfirm-deletion">Yes</button>
+            </form>
+        </div>
     </div>
 
 </div>
+<script src="{% static 'to_do/JS/pop_up_delete_view.js' %}"></script>
 {% endblock %}

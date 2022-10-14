@@ -27,6 +27,16 @@
     margin-top: 25px;
 }
 
+
+.detail {
+    margin: -3px 20px;
+}
+
+.detail .date {
+    margin: auto;
+    text-align: center;
+}
+
 .item .item-content {
     height: fit-content;
     margin-top: unset !important;
@@ -47,5 +57,45 @@
 }
 
 .detail-footer {
+    display: flex;
     text-align: center;
+    margin: auto;
+    width: fit-content;
+}
+
+.danger-msg {
+    top: -150%;
+    left: 50%;
+    opacity: 0;
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+    transform: translate(-50%, -75%);
+    width: 22%;
+    border-style: solid;
+    border-width: thin;
+    border-color: #0d6efd;
+    box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
+}
+
+.danger-msg.active {
+    top: 50%;
+    opacity: 1;
+    position: absolute;
+    transition: top 0ms ease-in-out 0ms,
+                opacity 200ms ease-in-out 0ms,
+                transform 200ms ease-in-out 0ms;
+}
+
+.danger-msg div button.btn-warning {
+    margin-right: 10px;
+}
+
+.danger-msg div {
+    width: fit-content;
+    margin: auto;
+}
+
+.buttons {
+    display: flex;
 }
