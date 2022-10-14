@@ -101,3 +101,9 @@ python manage.py runserver
   - Marking tasks as completed has been implemented
   - ```todo.html``` has a small redesign, now pending and completed tasks are in different blocks
   - Also implemented some minor things
+
+### V0.3.5-Pre-Release
+#### In this release:
+  - Implemented task editing
+  - Implemented task deleting
+  - New templates and stylesheets was implemented
