@@ -14,8 +14,8 @@ What can our application do now:
   - [ ] Edit task categories
   - [ ] Delete task categories
   - [X] Create tasks
-  - [ ] Edit tasks
-  - [ ] Delete tasks
+  - [X] Edit tasks
+  - [X] Delete tasks
   - [ ] Register users
   - [ ] Allow to login users in their accounts
   
