@@ -45,10 +45,10 @@
     <div class="danger-msg">
             <p>Are you sure you want to delete task "{{ task }}" ?</p>
         <div class="buttons">
-            <button class="btn btn-warning close-window">No</button>
+            <button class="btn btn-primary close-window">No</button>
             <form action="{% url 'to_do:to-do-delete' task.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger сonfirm-deletion">Yes</button>
+            <button type="submit" class="btn btn-primary сonfirm-deletion">Yes</button>
             </form>
         </div>
     </div>

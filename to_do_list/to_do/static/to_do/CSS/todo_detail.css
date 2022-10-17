@@ -87,8 +87,8 @@
                 transform 200ms ease-in-out 0ms;
 }
 
-.danger-msg div button.btn-warning {
-    margin-right: 10px;
+.danger-msg div button.btn-primary {
+    margin: 0 10px 0 10px;
 }
 
 .danger-msg div {
