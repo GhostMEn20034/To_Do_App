@@ -8,5 +8,6 @@ urlpatterns = [
     path('tasks/category/<int:category_id>/', views.Todos.as_view(), name="to-do-list"),
     path('tasks/detail/<int:task_id>/', views.TaskDetailView.as_view(), name="to-do-detail"),
     path('tasks/edit/<int:task_id>/', views.TaskUpdateView.as_view(), name="to-do-edit"),
-    path('tasks/delete/<int:task_id>/', views.TaskDeleteView.as_view(), name="to-do-delete")
+    path('tasks/delete/<int:task_id>/', views.TaskDeleteView.as_view(), name="to-do-delete"),
+    path('tasks/categories/delete/', views.delete_category, name="category-delete"),
 ]

@@ -3,8 +3,9 @@ const input = document.getElementById("task-title");
 
 input.addEventListener("keyup", (e) => {
     const value = e.currentTarget.value;
-    submitButton.disabled = false
+    submitButton.disabled = false;
     if (value === "") {
         submitButton.disabled = true;
     }
 });
+

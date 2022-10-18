@@ -19,6 +19,15 @@ class RedirectToBasePageView(RedirectView):
         return reverse("to_do:category")
 
 
+def delete_category(request):
+    if request.method == "POST":
+        print(request.POST)
+        id_ = request.POST["cat_id"]
+        category_obj = get_object_or_404(Category, id=id_)
+        category_obj.delete()
+        return HttpResponseRedirect(reverse("to_do:category"))
+
+
 class CategoryView(View):
     template_name = "to_do/category.html"
 
@@ -27,9 +36,11 @@ class CategoryView(View):
         return render(request, self.template_name, {"categories": categories})
 
     def post(self, request):
-        name = request.POST["name"]
-        category = Category(name=name)
-        category.save()
+        id_ = request.POST["id"]
+        new_name = request.POST["new_name"]
+        category_obj = get_object_or_404(Category, id=id_)
+        category_obj.name = new_name
+        category_obj.save()
         return HttpResponseRedirect(reverse("to_do:category"))
 
 

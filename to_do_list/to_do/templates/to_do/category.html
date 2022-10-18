@@ -3,6 +3,7 @@
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{% static 'to_do/CSS/category.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 {% endblock %}
 
 
@@ -15,19 +16,75 @@
         <div class="row">
             {% for category in categories %}
             <div class="col-6 mb-4">
-                <a href="{% url 'to_do:to-do-list' category.id %}" class="list-group-item rounded">
+                <a href="{% url 'to_do:to-do-list' category.id %}" class="list-group-item rounded" id="{{ category.id }}">
                     <div class="d-flex w-100 justify-content-center">
                         <h4>{{ category }}</h4>
                     </div>
                 </a>
-                <div class="d-flex me-auto ps-1">
-                    <button class="btn btn-primary btn-sm mt-1">Edit</button>
-                    <button class="btn btn-primary btn-sm ms-1 mt-1">Delete</button>
-                </div>
             </div>
             {% endfor %}
         </div>
-
+    <div class="d-flex me-auto ps-1">
+        <button class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#editCategory">Edit</button>
+        <button class="btn btn-primary btn-sm ms-1 mt-1" data-bs-toggle="modal" data-bs-target="#deleteCategory">Delete</button>
     </div>
+    </div>
+
+    <div class="modal fade" id="editCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Choose category name you will edit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form method="post">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                    <label for="form-select">Old name</label>
+                    <select class="form-select form-select-sm mb-2" aria-label=".form-select-sm example" name="id" id="select-option">
+                        <option selected hidden value="0">Choose...</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="newName">New name</label>
+                    <input class="form-control newName" name="new_name"/>
+                  </div>
+                  <div class="modal-footer">
+                        <button type="submit" disabled class="btn btn-primary" id="submitChanges">Submit</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+    </div>
+
+    <div class="modal fade" id="deleteCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Choose category name you will delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form method="post" action="{% url 'to_do:category-delete'%}">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                    <select class="form-select form-select-sm mb-2" aria-label=".form-select-sm example" name="cat_id" id="selectOption">
+                        <option selected hidden value="0">Choose...</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="modal-footer">
+                        <button type="submit" disabled class="btn btn-primary" id="submitDeletion">Submit</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+    </div>
+
 </div>
+
+<script src="{% static 'to_do/JS/CategoryHTML.js' %}">
+</script>
 {% endblock %}
