@@ -10,9 +10,9 @@ By design, our app *should be able to*:
   - Allow to login users in their accounts
   
 What can our application do now:
-  - [X] Create task categories
-  - [ ] Edit task categories
-  - [ ] Delete task categories
+  - [ ] Create task categories
+  - [X] Edit task categories
+  - [X] Delete task categories
   - [X] Create tasks
   - [X] Edit tasks
   - [X] Delete tasks
