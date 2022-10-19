@@ -10,3 +10,15 @@ $('#select-option').on('change', function () {
 $('#selectOption').on('change', function () {
     $('#submitDeletion').prop('disabled', false);
 });
+
+$("#createCategory").on("keyup", stateHandle);
+
+function stateHandle(e) {
+  console.log('input value vs. input value.trim()', '"' + e.target.value + '"', '"' + e.target.value.trim() + '"');
+  if ($("#createCategory").text() == e.target.value || e.target.value.trim().length == 0) {
+    $('#submitCreation').prop('disabled', true);
+  }
+  else {
+      $('#submitCreation').prop('disabled', false);
+  }
+}

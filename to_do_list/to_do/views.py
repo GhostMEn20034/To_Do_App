@@ -21,7 +21,6 @@ class RedirectToBasePageView(RedirectView):
 
 def delete_category(request):
     if request.method == "POST":
-        print(request.POST)
         id_ = request.POST["cat_id"]
         category_obj = get_object_or_404(Category, id=id_)
         category_obj.delete()
@@ -36,6 +35,12 @@ class CategoryView(View):
         return render(request, self.template_name, {"categories": categories})
 
     def post(self, request):
+        if "newCategory" in request.POST.keys():
+            name = request.POST.get("newCategory")
+            c = Category(name=name)
+            c.save()
+            return HttpResponseRedirect(reverse("to_do:category"))
+
         id_ = request.POST["id"]
         new_name = request.POST["new_name"]
         category_obj = get_object_or_404(Category, id=id_)
@@ -68,7 +73,6 @@ class Todos(View):
                 task = get_object_or_404(Task, id=todo['id'])
                 task.execution_status = not task.execution_status
                 task.save()
-                print(todo)
                 return JsonResponse({'status': 1,
                                      'done': task.execution_status})
 

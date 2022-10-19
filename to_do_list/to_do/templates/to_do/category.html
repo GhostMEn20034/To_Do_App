@@ -25,7 +25,8 @@
             {% endfor %}
         </div>
     <div class="d-flex me-auto ps-1">
-        <button class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#editCategory">Edit</button>
+        <button class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#addCategory">Add</button>
+        <button class="btn btn-primary btn-sm ms-1 mt-1" data-bs-toggle="modal" data-bs-target="#editCategory">Edit</button>
         <button class="btn btn-primary btn-sm ms-1 mt-1" data-bs-toggle="modal" data-bs-target="#deleteCategory">Delete</button>
     </div>
     </div>
@@ -77,6 +78,25 @@
                   </div>
                   <div class="modal-footer">
                         <button type="submit" disabled class="btn btn-primary" id="submitDeletion">Submit</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+    </div>
+    <div class="modal fade" id="addCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Enter category name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form method="post">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                      <input class="form-control inputName" name="newCategory" id="createCategory"/>
+                  </div>
+                  <div class="modal-footer">
+                        <button type="submit" disabled class="btn btn-primary" id="submitCreation">Submit</button>
                   </div>
               </form>
             </div>
