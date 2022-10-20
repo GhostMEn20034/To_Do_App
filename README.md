@@ -18,6 +18,7 @@ What can our application do now:
   - [X] Delete tasks
   - [ ] Register users
   - [ ] Allow to login users in their accounts
+  - [ ] Search tasks
   
   #
   # Installation
