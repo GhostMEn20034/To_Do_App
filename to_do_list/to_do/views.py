@@ -31,8 +31,9 @@ class CategoryView(View):
     template_name = "to_do/category.html"
 
     def get(self, request):
+        user = request.user
         categories = Category.objects.all()
-        return render(request, self.template_name, {"categories": categories})
+        return render(request, self.template_name, {"categories": categories, "user": user,})
 
     def post(self, request):
         if "newCategory" in request.POST.keys():
@@ -51,7 +52,6 @@ class CategoryView(View):
 
 class Todos(View):
     template_name = "to_do/todo.html"
-    form_class = TaskForm
 
     def get(self, request, category_id):
         category = get_object_or_404(Category, id=category_id)
