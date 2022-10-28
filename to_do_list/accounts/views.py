@@ -1,8 +1,8 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse, redirect
-from django.views import View
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, LoginUserForm
 
 
 # Create your views here.
@@ -29,3 +29,8 @@ def register_user(request, *args, **kwargs):
             context.update({'registration_form': form})
             print(form.errors)
     return render(request, template_name, context=context)
+
+
+class LoginUserView(LoginView):
+    form_class = LoginUserForm
+    template_name = "accounts/login.html"

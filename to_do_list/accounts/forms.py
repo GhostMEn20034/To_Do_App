@@ -1,7 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate
-
+from django.core.exceptions import ValidationError
 from .models import Account
 
 
@@ -29,3 +29,12 @@ class UserRegistrationForm(UserCreationForm):
         except Exception as e:
             return username
         raise forms.ValidationError("This username already in use")
+
+
+class LoginUserForm(AuthenticationForm):
+    username = forms.EmailField(widget=forms.TextInput(attrs={"class": "form-control mb-1",
+                                                              "type": "email",
+                                                              "name": "email", }), max_length=255, label="Email")
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control",
+                                                                 "type": "password",
+                                                                 "name": "password", }))

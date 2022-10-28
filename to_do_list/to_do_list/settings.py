@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+
+from django.urls import reverse, reverse_lazy
+
 from .local_settings import get_secret
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,6 +81,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'to_do_list.wsgi.application'
 
+LOGIN_REDIRECT_URL = reverse_lazy("to_do:category")
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
