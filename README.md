@@ -16,8 +16,8 @@ What can our application do now:
   - [X] Create tasks
   - [X] Edit tasks
   - [X] Delete tasks
-  - [ ] Register users
-  - [ ] Allow to login users in their accounts
+  - [X] Register users
+  - [X] Allow to login users in their accounts
   - [ ] Search tasks
   
   #
