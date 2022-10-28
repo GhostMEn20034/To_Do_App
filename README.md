@@ -11,6 +11,7 @@ By design, our app *should be able to*:
   - Delete tasks
   - Register users
   - Allow to login users in their accounts
+  - Search tasks
   
 What can our application do now:
   - [X] Create task categories
