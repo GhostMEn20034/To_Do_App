@@ -117,5 +117,4 @@ python manage.py runserver
 #### In this release:
   - User registration is implemented
   - Now you can log in and log out
-  - After this release you can see and do something only with your tasks
-
+  - After this release, you can only see and do things with your tasks
