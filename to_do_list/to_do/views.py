@@ -7,7 +7,7 @@ from .models import Task, Category
 from django.views import View
 from django.http import HttpResponseRedirect, JsonResponse, Http404
 from .my_shortcuts import is_ajax, get_objects_or_none
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -20,25 +20,28 @@ class RedirectToBasePageView(RedirectView):
 
 
 def delete_category(request):
+    if not request.POST:
+        raise Http404
+
     if request.method == "POST":
         id_ = request.POST["cat_id"]
-        category_obj = get_object_or_404(Category, id=id_)
+        category_obj = get_object_or_404(Category, id=id_, user=request.user)
         category_obj.delete()
         return HttpResponseRedirect(reverse("to_do:category"))
 
 
-class CategoryView(View):
+class CategoryView(LoginRequiredMixin, View):
     template_name = "to_do/category.html"
 
     def get(self, request):
         user = request.user
-        categories = Category.objects.all()
-        return render(request, self.template_name, {"categories": categories, "user": user,})
+        categories = Category.objects.all().filter(user=request.user)
+        return render(request, self.template_name, {"categories": categories, "user": user, })
 
     def post(self, request):
         if "newCategory" in request.POST.keys():
             name = request.POST.get("newCategory")
-            c = Category(name=name)
+            c = Category(name=name, user=request.user)
             c.save()
             return HttpResponseRedirect(reverse("to_do:category"))
 
@@ -50,11 +53,11 @@ class CategoryView(View):
         return HttpResponseRedirect(reverse("to_do:category"))
 
 
-class Todos(View):
+class Todos(LoginRequiredMixin, View):
     template_name = "to_do/todo.html"
 
     def get(self, request, category_id):
-        category = get_object_or_404(Category, id=category_id)
+        category = get_object_or_404(Category, id=category_id, user=request.user)
         uncompleted_tasks = get_objects_or_none(Task, category_id=category_id, execution_status=False)
         completed_tasks = get_objects_or_none(Task, category_id=category_id, execution_status=True)
         context = {
@@ -85,7 +88,7 @@ class Todos(View):
             return HttpResponseRedirect(reverse("to_do:to-do-list", kwargs={'category_id': category_id}))
 
 
-class TaskDetailView(DetailView):
+class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = "to_do/todo_detail.html"
     pk_url_kwarg = "task_id"
@@ -93,18 +96,23 @@ class TaskDetailView(DetailView):
     def get_context_data(self, **kwargs):
         obj_id = Task.objects.get(id=self.kwargs['task_id']).category_id
         context = super().get_context_data(**kwargs)
-        context["task_category"] = Category.objects.get(id=obj_id)
+        # "task": Task.objects.filter(id=self.kwargs.get("task_id"), category__user=self.request.user)
+        context.update({"task_category": Category.objects.get(id=obj_id), })
         return context
 
+    def get_object(self, queryset=None):
+        id_ = self.kwargs.get("task_id")
+        return get_object_or_404(Task, id=id_, category__user=self.request.user)
 
-class TaskUpdateView(UpdateView):
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "to_do/update_todo.html"
     pk_url_kwarg = "task_id"
     form_class = TaskForm
 
     def get_object(self, queryset=None):
         id_ = self.kwargs.get("task_id")
-        return get_object_or_404(Task, id=id_)
+        return get_object_or_404(Task, id=id_, category__user=self.request.user)
 
     def get_success_url(self, **kwargs):
         obj_id = Task.objects.get(id=self.kwargs.get("task_id")).category_id

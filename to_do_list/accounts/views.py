@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse, redirect
@@ -34,3 +34,9 @@ def register_user(request, *args, **kwargs):
 class LoginUserView(LoginView):
     form_class = LoginUserForm
     template_name = "accounts/login.html"
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("accounts:login")
+

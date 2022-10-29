@@ -1,10 +1,19 @@
 .navbar-search {
-    margin-left: 10%;
+    margin-left: 7%;
     width: fit-content;
 }
 
-
+.item-container a.logout-link {
+    float: right;
+}
 
 body {
     background-color: #d7d7d7 !important;
+}
+
+.item-container p {
+    color: aliceblue;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 1%
 }

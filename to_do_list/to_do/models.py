@@ -1,10 +1,11 @@
 from django.db import models
-
+from accounts.models import Account
 # Create your models here.
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100) #Category name
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True,)
+    name = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = "Category"
@@ -20,7 +21,7 @@ class Task(models.Model):
     task_text = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     reminder_date = models.DateTimeField(blank=True, null=True)
-    category = models.ForeignKey(Category, default="My day", on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, default="My day", on_delete=models.CASCADE)
     execution_status = models.BooleanField(default=False)
 
     class Meta:

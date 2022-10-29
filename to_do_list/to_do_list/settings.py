@@ -82,6 +82,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'to_do_list.wsgi.application'
 
 LOGIN_REDIRECT_URL = reverse_lazy("to_do:category")
+LOGIN_URL = reverse_lazy("accounts:login")
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

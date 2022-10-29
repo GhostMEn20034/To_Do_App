@@ -14,7 +14,6 @@ $('#selectOption').on('change', function () {
 $("#createCategory").on("keyup", stateHandle);
 
 function stateHandle(e) {
-  console.log('input value vs. input value.trim()', '"' + e.target.value + '"', '"' + e.target.value.trim() + '"');
   if ($("#createCategory").text() == e.target.value || e.target.value.trim().length == 0) {
     $('#submitCreation').prop('disabled', true);
   }
