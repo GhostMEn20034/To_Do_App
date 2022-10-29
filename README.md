@@ -114,7 +114,7 @@ python manage.py runserver
   - New templates and stylesheets was implemented
   
 ### V0.5-Pre-Release
-#### In this release
+#### In this release:
   - User registration is implemented
   - Now you can log in and log out
   - After this release you can see and do something only with your tasks
