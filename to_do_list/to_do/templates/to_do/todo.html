@@ -73,6 +73,12 @@
             </div>
             {% endif %}
             {% if completed_tasks.count > 0 %}
+            <div class="task-card-header">
+            <h5 class="completed-task-label">
+                <span>Completed</span>
+            </h5>
+            </div>
+            <hr class="separate-line">
             <div class="block-content done-tasks">
                     <div class="list-group tasks-list">
                     {% for todo in completed_tasks %}

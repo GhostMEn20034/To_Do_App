@@ -43,8 +43,6 @@
 .block-content {
     width: 80%;
     margin: 10px auto;
-    border-radius: 8px;
-    background-color: #efa502;
     padding: 10px 10px 0 10px;
 }
 
@@ -123,4 +121,14 @@ div.list-group-item:hover {
 
 .no-tasks-msg {
     text-align: center;
+}
+
+.task-card-header {
+    width: 78.5%;
+    margin: auto;
+}
+
+.separate-line {
+    width: 78.5%;
+    margin: auto;
 }

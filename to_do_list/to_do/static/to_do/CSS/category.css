@@ -2,3 +2,7 @@
     width: 50%;
     margin: 2% auto;
 }
+
+.no-categories-msg p {
+    text-align: center;
+}
