@@ -1,5 +1,5 @@
 # To_Do_App
-This is a simple example of a Django application  
+This is a todo application written on django for storing your tasks
 
 
 By design, our app *should be able to*:
