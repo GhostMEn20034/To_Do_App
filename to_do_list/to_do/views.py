@@ -1,13 +1,14 @@
 from django.shortcuts import render, reverse, get_object_or_404
 from django.views.generic.base import RedirectView
-from django.views.generic import DetailView, UpdateView, DeleteView
-import json
+from django.views.generic import DetailView, UpdateView, DeleteView, ListView
 from .forms import TaskForm
 from .models import Task, Category
 from django.views import View
 from django.http import HttpResponseRedirect, JsonResponse, Http404
 from .my_shortcuts import is_ajax, get_objects_or_none
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from .services import update_execution_status_field
 
 # Create your views here.
 
@@ -70,14 +71,7 @@ class Todos(LoginRequiredMixin, View):
 
     def post(self, request, category_id):
         if is_ajax(request):
-            if request.method == 'POST':
-                data = json.load(request)
-                todo = data.get('payload')
-                task = get_object_or_404(Task, id=todo['id'])
-                task.execution_status = not task.execution_status
-                task.save()
-                return JsonResponse({'status': 1,
-                                     'done': task.execution_status})
+            return JsonResponse(update_execution_status_field(request))
 
         form = TaskForm(request.POST)
         category = Category.objects.get(id=category_id)
@@ -129,3 +123,24 @@ class TaskDeleteView(DeleteView):
 
     def get(self, request, *args, **kwargs):
         raise Http404
+
+
+class TaskSearch(ListView):
+    model = Task
+    template_name = "to_do/todo_search.html"
+    context_object_name = 'task'
+
+    def get_queryset(self):
+        query = self.request.GET
+        tasks = Task.objects.filter(Q(task_title__icontains=query.get("task_title")),
+                                    category__user=self.request.user).select_related(
+            "category")
+        if query.get("hide_completed") == 'True':
+            tasks = Task.objects.filter(Q(task_title__icontains=query.get("task_title")) & Q(execution_status=False),
+                                        category__user=self.request.user).select_related(
+                "category")
+        return tasks
+
+    def post(self, request):
+        if is_ajax(request):
+            return JsonResponse(update_execution_status_field(request))

@@ -1,0 +1,14 @@
+.stretched-link::after {
+    width: 93%;
+    margin-left: auto;
+}
+
+.task-info {
+    width: 98.1%;
+    margin-left: 1%;
+    margin-right: 4%;
+}
+
+.tasksCount {
+    height: 3%;
+}

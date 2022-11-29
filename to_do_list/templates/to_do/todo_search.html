@@ -1,0 +1,57 @@
+{% extends 'to_do/base.html' %}
+{% load static %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'to_do/CSS/todo_search.css' %}" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+    <div class="main p-2">
+        <h4 class="text-center text-primary">Searching for "{{ request.GET.task_title }}"</h4>
+        <div class="w-50 mx-auto p-3 list-group block-content">
+        <div class="d-flex w-100">
+        <p class="bg-white rounded p-1 mb-0 text-primary tasksCount">Tasks&nbsp;&nbsp;{{ task.count }}</p>
+            <button class="btn btn-light btn-sm text-primary ms-auto hideCompletedTasks">Hide completed tasks</button>
+        </div>
+        <div class="list-group outerBlock">
+        <div class="tasks innerBlock">
+        {% for todo in task %}
+            <div class="list-group-item mb-1 mt-1">
+                <div class="mini-container">
+                    <div class="sub-container d-inline-flex w-100">
+                        {% if todo.execution_status %}
+                        <div class="checkbox" id="cBox1">
+                            <input class="form-check-input me-1 cBox" type="checkbox" value="" id="{{ todo.id }}" checked>
+
+                        </div>
+                        <div class="task-info">
+                            <div class="title">
+                                <del>{{ todo.task_title }}</del>
+                            </div>
+                            <div class="task-category">
+                                <small class="category-text">{{ todo.category }}</small>
+                            </div>
+                            </div>
+                        {% else %}
+                        <div class="checkbox" id="cBox1">
+                            <input class="form-check-input me-1 cBox" type="checkbox" value="" id="{{ todo.id }}">
+                        </div>
+                        <div class="task-info">
+                            <div class="title">
+                                {{ todo.task_title }}
+                            </div>
+                            <div class="task-category">
+                                <small class="category-text">{{ todo.category }}</small>
+                            </div>
+                            </div>
+                        {% endif %}
+                            <a href="{% url 'to_do:to-do-detail' todo.id %}" class="detail-link stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        </div>
+        </div>
+    </div>
+    <script type="module" src="{% static 'to_do/JS/ajax_task_search.js' %}"></script>
+{% endblock %}

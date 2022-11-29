@@ -16,8 +16,8 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'to_do:category' %}">To Do</a>
     <div class="navbar-search">
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Find a task" aria-label="Search">
+      <form class="d-flex" method="get" action="{% url 'to_do:task-search' %}">
+        <input class="form-control me-2" type="search" placeholder="Find a task" aria-label="Search" name="task_title" value="{{ request.GET.task_title }}">
         <button class="btn btn-outline-light" type="submit">Search</button>
       </form>
     </div>
