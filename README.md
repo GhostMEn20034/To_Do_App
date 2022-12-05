@@ -22,7 +22,7 @@ What can our application do now:
   - [X] Delete tasks
   - [X] Register users
   - [X] Allow to login users in their accounts
-  - [ ] Search tasks
+  - [X] Search tasks
   
   #
   # Installation
