@@ -118,3 +118,8 @@ python manage.py runserver
   - User registration is implemented
   - Now you can log in and log out
   - After this release, you can only see and do things with your tasks
+### V0.9-Pre-Release
+#### In this release:
+  - Implemented tasks searching
+  - Now you can sort tasks by some condition
+  - Minor bugs was fixed
