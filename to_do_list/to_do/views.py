@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, JsonResponse, Http404
 from .my_shortcuts import is_ajax, get_objects_or_none
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from .services import update_execution_status_field
+from .services import service, tasks_sort
 
 # Create your views here.
 
@@ -61,6 +61,11 @@ class Todos(LoginRequiredMixin, View):
         category = get_object_or_404(Category, id=category_id, user=request.user)
         uncompleted_tasks = get_objects_or_none(Task, category_id=category_id, execution_status=False)
         completed_tasks = get_objects_or_none(Task, category_id=category_id, execution_status=True)
+
+        if request.GET.get("sort_condition"):
+            completed_tasks = tasks_sort.TaskSort(completed_tasks).sort(request)
+            uncompleted_tasks = tasks_sort.TaskSort(uncompleted_tasks).sort(request)
+
         context = {
             "does_not_exist_msg": "There is no tasks yet",
             "category": category,
@@ -71,7 +76,7 @@ class Todos(LoginRequiredMixin, View):
 
     def post(self, request, category_id):
         if is_ajax(request):
-            return JsonResponse(update_execution_status_field(request))
+            return JsonResponse(service.update_execution_status_field(request))
 
         form = TaskForm(request.POST)
         category = Category.objects.get(id=category_id)
@@ -143,4 +148,4 @@ class TaskSearch(ListView):
 
     def post(self, request):
         if is_ajax(request):
-            return JsonResponse(update_execution_status_field(request))
+            return JsonResponse(service.update_execution_status_field(request))
