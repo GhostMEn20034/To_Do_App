@@ -40,7 +40,7 @@ class Account(AbstractBaseUser):
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     birthdate = models.DateField(blank=True, null=True)
     is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
 
     objects = MyAccountManager()
 

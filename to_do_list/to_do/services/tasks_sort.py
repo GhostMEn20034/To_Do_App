@@ -9,7 +9,7 @@ class TaskSort:
         return self.queryset.order_by(F('reminder_date').asc(nulls_last=True))
 
     def sort_by_creation_date(self):
-        return self.queryset.order_by('-created_at')
+        return self.queryset.order_by('created_at')
 
     def sort_alphabetically(self):
         return self.queryset.order_by('task_title')
