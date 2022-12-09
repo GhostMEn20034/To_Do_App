@@ -14,7 +14,7 @@ from pathlib import Path
 
 from django.urls import reverse, reverse_lazy
 
-from .local_settings import get_secret
+from .local_settings import JsonReader
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,9 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_secret("SECRET_KEY")
+db_settings = JsonReader('project_settings/settings_for_db.json')
+smtp_settings = JsonReader('project_settings/smtp_params.json')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = db_settings.get_secret("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -90,11 +92,11 @@ LOGIN_URL = reverse_lazy("accounts:login")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        "NAME": get_secret("NAME"),
-        "USER": get_secret("USER"),
-        "PASSWORD": get_secret("PASSWORD"),
-        "HOST": get_secret("HOST"),
-        "PORT": get_secret("PORT")
+        "NAME": db_settings.get_secret("NAME"),
+        "USER": db_settings.get_secret("USER"),
+        "PASSWORD": db_settings.get_secret("PASSWORD"),
+        "HOST": db_settings.get_secret("HOST"),
+        "PORT": db_settings.get_secret("PORT")
     }
 }
 
@@ -142,6 +144,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'yukon197415@gmail.com'
-EMAIL_HOST_PASSWORD = 'gaykqzaromlbqibo'
+EMAIL_PORT = smtp_settings.get_secret("EMAIL_PORT")
+EMAIL_HOST_USER = smtp_settings.get_secret("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = smtp_settings.get_secret("EMAIL_HOST_PASSWORD")

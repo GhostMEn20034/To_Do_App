@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse, redirect
 from django.utils.encoding import force_bytes, force_str
@@ -11,6 +11,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .services.email_verification_token_generator import email_verification_token
 from django.core.mail import EmailMessage
 from .models import Account
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 
 
@@ -90,3 +92,14 @@ class ActivateUserView(View):
         user.save()
         login(request, user, backend='accounts.backends.CaseInsensitiveModelBackend')
         return redirect("accounts:registration-successful")
+
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = "accounts/password_reset.html"
+    email_template_name = "accounts/email_reset_password.html"
+    subject_template_name = "accounts/password_reset_subject"
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy("accounts:login")
